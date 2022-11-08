@@ -1,0 +1,7 @@
+---
+# This Playbook would deploy the whole new YouTube ads block list to unbound
+
+- hosts: all
+  roles:
+    - role: common
+

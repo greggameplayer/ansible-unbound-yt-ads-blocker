@@ -1,0 +1,21 @@
+---
+# This playbook is used to deploy generated unbound rules
+- name: Verify pip dependencies
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - requests
+  become: yes
+
+- name: Generate unbound rules
+  script: ./files/generate-unbound-rules.py
+  register: unbound_rules
+  tags: unbound
+
+- name: Deploy unbound rules
+  copy:
+    content: "{{ unbound_rules.stdout }}"
+    dest: /etc/unbound/unbound.conf.d/youtube-ads-blocker.conf
+  notify: restart unbound
+  tags: unbound
