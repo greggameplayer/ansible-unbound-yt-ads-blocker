@@ -9,15 +9,14 @@
   become: yes
 
 - name: Change script permissions
-  file:
-    path: "{{ role_path }}/files/generate-unbound-rules.py"
-    mode: 0777
+  copy:
+    src: "{{ role_path }}/files/generate-unbound-rules.py"
+    dest: /home/greg/generate-unbound-rules.py
+    mode: u=rwx,g=rx,o=rx
   become: yes
 
 - name: Generate unbound rules
-  command: ./generate-unbound-rules.py
-  args:
-    chdir: "{{ role_path }}/files"
+  command: /home/greg/generate-unbound-rules.py
   run_once: true
   register: unbound_rules
   tags: unbound
@@ -27,4 +26,11 @@
     content: "{{ unbound_rules.stdout }}"
     dest: /etc/unbound/unbound.conf.d/youtube-ads-blocker.conf
   notify: restart unbound
+  tags: unbound
+
+- name: Delete script
+  file:
+    path: /home/greg/generate-unbound-rules.py
+    state: absent
+  become: yes
   tags: unbound
