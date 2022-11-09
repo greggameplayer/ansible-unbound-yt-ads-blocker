@@ -19,7 +19,7 @@
 
 - name: Deploy unbound rules on host
   copy:
-    content: "{{ unbound_rules }}"
+    content: "{{ unbound_rules.stdout }}"
     dest: /etc/unbound/unbound.conf.d/youtube-ads-blocker.conf
   notify: restart unbound
   tags: unbound
