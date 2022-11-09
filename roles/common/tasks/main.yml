@@ -7,12 +7,14 @@
   with_items:
     - requests
   become: yes
+  delegate_to: 127.0.0.1
 
 - name: Change script permissions
   file:
     path: "{{ role_path }}/files/generate-unbound-rules.py"
     mode: 0777
   become: yes
+  delegate_to: 127.0.0.1
 
 - name: Generate unbound rules
   command: ./generate-unbound-rules.py
@@ -21,6 +23,7 @@
   run_once: true
   register: unbound_rules
   tags: unbound
+  delegate_to: 127.0.0.1
 
 - name: Deploy unbound rules
   copy:
@@ -28,3 +31,4 @@
     dest: /etc/unbound/unbound.conf.d/youtube-ads-blocker.conf
   notify: restart unbound
   tags: unbound
+  delegate_to: 127.0.0.1
