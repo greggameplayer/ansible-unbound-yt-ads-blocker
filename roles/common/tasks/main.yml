@@ -9,7 +9,10 @@
   become: yes
 
 - name: Generate unbound rules
-  script: ./files/generate-unbound-rules.py
+  command: ./generate-unbound-rules.py
+  args:
+    chdir: "{{ role_path }}/files"
+  run_once: true
   register: unbound_rules
   tags: unbound
 
