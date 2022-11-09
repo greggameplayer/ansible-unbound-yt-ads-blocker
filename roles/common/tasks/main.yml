@@ -8,6 +8,12 @@
     - requests
   become: yes
 
+- name: Change script permissions
+  file:
+    path: "{{ role_path }}/files/generate-unbound-rules.py"
+    mode: 0777
+  become: yes
+
 - name: Generate unbound rules
   command: ./generate-unbound-rules.py
   args:
