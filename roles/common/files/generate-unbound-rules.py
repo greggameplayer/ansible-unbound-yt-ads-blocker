@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import requests
 
 url = 'https://raw.githubusercontent.com/anudeepND/youtubeadsblacklist/master/domainlist.txt'
